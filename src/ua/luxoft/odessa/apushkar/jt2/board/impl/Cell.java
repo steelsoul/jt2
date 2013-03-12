@@ -44,7 +44,7 @@ public class Cell {
 			if (mChecked)
 			{
 				g.setColor(mColor.darker());
-				g.drawRect(x + 1, y + 1, size - 1, size - 1);
+				g.drawRect(x + 1, y + 1, size-2, size-2);
 			}
 		}
 	}

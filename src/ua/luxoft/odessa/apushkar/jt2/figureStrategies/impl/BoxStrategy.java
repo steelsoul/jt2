@@ -18,19 +18,17 @@ public class BoxStrategy implements IFigureStrategy {
 		for (int x = 0; x < 2; x++)
 			for (int y = 0; y < 2; y++)
 				pres[x][y] = true;
-		return null;
+		return pres;
 	}
 
 	@Override
 	public int getStartX() {
-		// TODO Auto-generated method stub
-		return Board.WIDTH / 2 + 1;
+		return Board.WIDTH / 2 - 1;
 	}
 
 	@Override
 	public int getStartY() {
-		// TODO Auto-generated method stub
-		return -3;
+		return 0;
 	}
 
 	@Override

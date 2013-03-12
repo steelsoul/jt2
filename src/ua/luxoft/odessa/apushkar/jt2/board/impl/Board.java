@@ -47,12 +47,21 @@ public class Board {
 	public void setMap(int x, int y) {
 		if (x >= 0 && x < WIDTH + 1 && y >= 0 && y < HEIGHT)
 			mBoard[x + 1][y].setChecked(true);
-	}	
+	}
+	
+	public void setMap(int x, int y, Cell cell)
+	{
+		if (x >= 0 && x < WIDTH + 1 && y >= 0 && y < HEIGHT)
+			mBoard[x + 1][y] = cell;
+	}
 	
 	public void draw(Graphics g, int offsetH, int size) {
 		for (int i = 1; i < WIDTH + 1; i++)
 			for (int j = 0; j < HEIGHT; j++)
-				mBoard[i][j].draw(g, offsetH + (i-1)*size, offsetH + j*size, size);
+				mBoard[i][j].draw(g, 
+						offsetH + (i-1)*size, 
+						offsetH + j*size, 
+						size);
 	}
 	
 }

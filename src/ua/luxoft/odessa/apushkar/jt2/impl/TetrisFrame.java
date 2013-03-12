@@ -1,5 +1,6 @@
 package ua.luxoft.odessa.apushkar.jt2.impl;
 
+import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -15,12 +16,13 @@ import javax.swing.KeyStroke;
 public class TetrisFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-	private static GamePanel mGamePanel;
+	private static Canvas mCurrentScreen;
+	private static JFrame mFrame;
 
 	public static void createGUI() {
 		
-		JFrame frame = new JFrame("Tetris 2");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mFrame = new JFrame("Tetris 2");
+		mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Font font = new Font("Vernada", Font.PLAIN, 11);
 		
@@ -41,14 +43,14 @@ public class TetrisFrame extends JFrame {
 		
 		menuBar.add(gameMenu);
 		
-		frame.setJMenuBar(menuBar);
-		frame.setPreferredSize(new Dimension(320, 400));
-		mGamePanel = new GamePanel();		
-		frame.add(mGamePanel);
+		mFrame.setJMenuBar(menuBar);
+		mFrame.setPreferredSize(new Dimension(320, 400));
+		mCurrentScreen = new SplashScreen();
+		mFrame.getContentPane().add(mCurrentScreen);
 		
-		frame.pack();
-		frame.setResizable(false);
-		frame.setVisible(true);			
+		mFrame.pack();
+		mFrame.setResizable(false);
+		mFrame.setVisible(true);			
 		
 		quitItem.addActionListener(new ActionListener() {
 			@Override
@@ -60,7 +62,11 @@ public class TetrisFrame extends JFrame {
 		startItem.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				mGamePanel.startGame();
+				mFrame.getContentPane().remove(mCurrentScreen);
+				mCurrentScreen = new GameScreen();
+				mFrame.getContentPane().add(mCurrentScreen);
+				mCurrentScreen.requestFocusInWindow();
+				mFrame.pack();				
 			}
 		});
 		
