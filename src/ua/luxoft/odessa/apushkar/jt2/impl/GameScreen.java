@@ -9,8 +9,10 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.Timer;
 
+import ua.luxoft.odessa.apushkar.jt2.api.IFigure;
 import ua.luxoft.odessa.apushkar.jt2.api.IKeyObserver;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Board;
+import ua.luxoft.odessa.apushkar.jt2.board.impl.InfoTable;
 import ua.luxoft.odessa.apushkar.jt2.figure.impl.Box;
 import ua.luxoft.odessa.apushkar.jt2.figure.impl.Line;
 import ua.luxoft.odessa.apushkar.jt2.figure.impl.TetrisFigure;
@@ -27,12 +29,15 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 	private TetrisFigure mNextFigure;
 	private Timer mGameTimer, mAddDelayTimer;
 	private KeyInputHandler mInput;
+	private InfoTable mInfo;
 
 	public GameScreen() {
 		mPaused = false;
 		mBoard = new Board();
 		mFigure = new TetrisFigure(new Box(), mBoard);
-		mNextFigure = new TetrisFigure(new Box(), mBoard);
+		IFigure tempFigure = new Box();
+		mNextFigure = new TetrisFigure(tempFigure, mBoard);
+		mInfo = new InfoTable(tempFigure);
 		mGameTimer = new Timer(500, this);
 		mAddDelayTimer = new Timer(500, this);
 		mInput = new KeyInputHandler();
@@ -60,6 +65,8 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 		int sizeH = getHeight()/Board.HEIGHT; 
 		int size = sizeW < sizeH ? sizeW : sizeH;
 		int offsetH = (getHeight() - size*Board.HEIGHT)/2;
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
 		g.drawRect(offsetH - 1, 
 				offsetH - 1, 
@@ -67,6 +74,7 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 				size*Board.HEIGHT + 1);
 		mBoard.draw(g, offsetH, size);
 		mFigure.draw(g, offsetH, size);
+		mInfo.draw(g, size*Board.WIDTH + 1, offsetH, size);
 	}
 	
 	public void update(Graphics g) {
@@ -96,10 +104,13 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 			{
 				mFigure.stayOnBoard();
 				mInput.remove(mFigure);
-				mBoard.checkBoard();
+				int amount = mBoard.checkBoard();
+				mInfo.addScores(20*amount);
 				mFigure = mNextFigure;
 				mInput.add(mFigure);
-				mNextFigure = new TetrisFigure(new Line(), mBoard);
+				IFigure nextFigure = new Line();
+				mNextFigure = new TetrisFigure(nextFigure, mBoard);
+				mInfo.changeFigure(nextFigure);
 				mAddDelayTimer.stop();
 			}
 				

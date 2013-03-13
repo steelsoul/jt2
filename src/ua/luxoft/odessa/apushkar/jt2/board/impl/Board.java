@@ -38,7 +38,7 @@ public class Board {
 	public Boolean getMap(int x, int y)	{
 		if (y < 0)
 			return false;
-		else if (x >= 0 && x < WIDTH + 1 && y >= 0 && y < HEIGHT)
+		else if (x >= 0 && x < WIDTH + 1 && y >= 0 && y < HEIGHT + 1)
 			return mBoard[x + 1][y].isChecked();
 		else
 			return true;
@@ -64,7 +64,8 @@ public class Board {
 						size);
 	}
 	
-	public void checkBoard() {
+	public int checkBoard() {
+		int amount = 0;
 		for (int i = 0; i < HEIGHT; i++) 
 		{
 			if (checkLine(i)) {
@@ -79,8 +80,10 @@ public class Board {
 					tmp.setVisible(true);
 					mBoard[x][0] = tmp;
 				}
+				amount++;
 			}
 		}
+		return amount;
 	}
 	
 	private Boolean checkLine(int h) {
