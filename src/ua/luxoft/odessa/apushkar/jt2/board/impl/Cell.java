@@ -37,7 +37,7 @@ public class Cell {
 	}
 	
 	public void draw(Graphics g, int x, int y, int size) {
-		if (mVisible)
+		if (mVisible && y >= 0)
 		{
 			g.setColor(mColor);
 			g.fillRect(x, y, size, size);

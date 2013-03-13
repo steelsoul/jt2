@@ -64,4 +64,30 @@ public class Board {
 						size);
 	}
 	
+	public void checkBoard() {
+		for (int i = 0; i < HEIGHT; i++) 
+		{
+			if (checkLine(i)) {
+				// remove this line 
+				// and move down all above it
+				for (int y = i; y > 0; y--)
+					for (int x = 1; x < WIDTH + 1; x++)
+						mBoard[x][y] = mBoard[x][y-1];
+				// regenerate first line from the top
+				for (int x = 1; x < WIDTH + 1; x++){
+					Cell tmp = new Cell();
+					tmp.setVisible(true);
+					mBoard[x][0] = tmp;
+				}
+			}
+		}
+	}
+	
+	private Boolean checkLine(int h) {
+		for (int x = 1; x < WIDTH + 1; x++)
+			if (!mBoard[x][h].isChecked()) 
+				return false; 
+		return true;
+	}
+	
 }

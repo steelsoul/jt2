@@ -11,8 +11,9 @@ import javax.swing.Timer;
 
 import ua.luxoft.odessa.apushkar.jt2.api.IKeyObserver;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Board;
+import ua.luxoft.odessa.apushkar.jt2.figure.impl.Box;
+import ua.luxoft.odessa.apushkar.jt2.figure.impl.Line;
 import ua.luxoft.odessa.apushkar.jt2.figure.impl.TetrisFigure;
-import ua.luxoft.odessa.apushkar.jt2.figureStrategies.impl.BoxStrategy;
 
 /**
  *  This is the place where all game elements will be shown.
@@ -30,8 +31,8 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 	public GameScreen() {
 		mPaused = false;
 		mBoard = new Board();
-		mFigure = new TetrisFigure(new BoxStrategy(), mBoard);
-		mNextFigure = new TetrisFigure(new BoxStrategy(), mBoard);
+		mFigure = new TetrisFigure(new Box(), mBoard);
+		mNextFigure = new TetrisFigure(new Box(), mBoard);
 		mGameTimer = new Timer(500, this);
 		mAddDelayTimer = new Timer(500, this);
 		mInput = new KeyInputHandler();
@@ -95,9 +96,10 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 			{
 				mFigure.stayOnBoard();
 				mInput.remove(mFigure);
+				mBoard.checkBoard();
 				mFigure = mNextFigure;
 				mInput.add(mFigure);
-				mNextFigure = new TetrisFigure(new BoxStrategy(), mBoard);
+				mNextFigure = new TetrisFigure(new Line(), mBoard);
 				mAddDelayTimer.stop();
 			}
 				
