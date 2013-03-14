@@ -3,6 +3,7 @@ package ua.luxoft.odessa.apushkar.jt2.impl;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,8 +14,7 @@ import ua.luxoft.odessa.apushkar.jt2.api.IFigure;
 import ua.luxoft.odessa.apushkar.jt2.api.IKeyObserver;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Board;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.InfoTable;
-import ua.luxoft.odessa.apushkar.jt2.figure.impl.Box;
-import ua.luxoft.odessa.apushkar.jt2.figure.impl.Line;
+import ua.luxoft.odessa.apushkar.jt2.figure.impl.FigureGenerator;
 import ua.luxoft.odessa.apushkar.jt2.figure.impl.TetrisFigure;
 
 /**
@@ -30,12 +30,14 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 	private Timer mGameTimer, mAddDelayTimer;
 	private KeyInputHandler mInput;
 	private InfoTable mInfo;
+	private Image mDbImage;
+	private Graphics mDbG;
 
 	public GameScreen() {
 		mPaused = false;
 		mBoard = new Board();
-		mFigure = new TetrisFigure(new Box(), mBoard);
-		IFigure tempFigure = new Box();
+		mFigure = new TetrisFigure(FigureGenerator.generate(), mBoard);
+		IFigure tempFigure = FigureGenerator.generate();
 		mNextFigure = new TetrisFigure(tempFigure, mBoard);
 		mInfo = new InfoTable(tempFigure);
 		mGameTimer = new Timer(500, this);
@@ -44,7 +46,7 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 		addKeyListener(mInput);
 		mInput.add(this);
 		mInput.add(mFigure);
-		mGameTimer.start();
+		mGameTimer.start();		
 	}
 	
 	public void pause() {
@@ -78,7 +80,13 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 	}
 	
 	public void update(Graphics g) {
-		paint(g);
+		if (mDbImage == null)
+		{
+			mDbImage = createImage(getSize().width, getSize().height);
+			mDbG = mDbImage.getGraphics();
+		}
+		paint(mDbG);
+		g.drawImage(mDbImage, 0, 0, this);
 	}
 
 	@Override
@@ -108,7 +116,7 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 				mInfo.addScores(20*amount);
 				mFigure = mNextFigure;
 				mInput.add(mFigure);
-				IFigure nextFigure = new Line();
+				IFigure nextFigure = FigureGenerator.generate();
 				mNextFigure = new TetrisFigure(nextFigure, mBoard);
 				mInfo.changeFigure(nextFigure);
 				mAddDelayTimer.stop();
