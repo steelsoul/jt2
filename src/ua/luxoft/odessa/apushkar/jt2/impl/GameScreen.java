@@ -1,6 +1,5 @@
 package ua.luxoft.odessa.apushkar.jt2.impl;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -11,6 +10,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.Timer;
 
 import ua.luxoft.odessa.apushkar.jt2.api.IFigure;
+import ua.luxoft.odessa.apushkar.jt2.api.IGameObserver;
 import ua.luxoft.odessa.apushkar.jt2.api.IKeyObserver;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Board;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.InfoTable;
@@ -20,7 +20,7 @@ import ua.luxoft.odessa.apushkar.jt2.figure.impl.TetrisFigure;
 /**
  *  This is the place where all game elements will be shown.
  * */
-public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
+public class GameScreen extends BaseScreen implements ActionListener, IKeyObserver {
 	private static final long serialVersionUID = 1L;
 	
 	private Boolean mPaused;
@@ -32,8 +32,10 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 	private InfoTable mInfo;
 	private Image mDbImage;
 	private Graphics mDbG;
+	private IGameObserver mObserver;
 
 	public GameScreen() {
+		super();
 		mPaused = false;
 		mBoard = new Board();
 		mFigure = new TetrisFigure(FigureGenerator.generate(), mBoard);
@@ -115,6 +117,15 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 				int amount = mBoard.checkBoard();
 				mInfo.addScores(20*amount);
 				mFigure = mNextFigure;
+				// check end of the game
+				if (!mFigure.checkDown())
+				{
+					setActive(false);
+					mPaused = true;
+					// we should change to new screen and show amount of scores
+					if (mObserver != null)
+						mObserver.notify(mInfo.getScores());					
+				}
 				mInput.add(mFigure);
 				IFigure nextFigure = FigureGenerator.generate();
 				mNextFigure = new TetrisFigure(nextFigure, mBoard);
@@ -133,6 +144,17 @@ public class GameScreen extends Canvas implements ActionListener, IKeyObserver {
 			pause();
 		}
 		repaint();
+	}
+
+	@Override
+	public void addObserver(IGameObserver o) {
+		mObserver = o;
+	}
+
+	@Override
+	public void removeObserver(IGameObserver o) {
+		if (mObserver == o)
+			mObserver = null;
 	}
 		
 }

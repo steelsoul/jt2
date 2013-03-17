@@ -1,6 +1,5 @@
 package ua.luxoft.odessa.apushkar.jt2.impl;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -10,13 +9,14 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.Timer;
 
+import ua.luxoft.odessa.apushkar.jt2.api.IGameObserver;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Board;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Cell;
 
 /**
  *  Show splash screen 
  * */
-public class SplashScreen extends Canvas implements ActionListener{
+public class SplashScreen extends BaseScreen implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
 	private static final int AMOUNT = 40;
@@ -106,6 +106,18 @@ public class SplashScreen extends Canvas implements ActionListener{
 		repaint();
 		regenerate();
 		mShowHelp = !mShowHelp;
+	}
+
+	@Override
+	public void addObserver(IGameObserver o) {
+		// TODO Auto-generated method stub
+		// should do nothing
+	}
+
+	@Override
+	public void removeObserver(IGameObserver o) {
+		// TODO Auto-generated method stub
+		// should do nothing
 	}
 
 }

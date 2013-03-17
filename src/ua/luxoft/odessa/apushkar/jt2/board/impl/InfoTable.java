@@ -29,6 +29,10 @@ public class InfoTable {
 		mLevel++;
 	}
 	
+	public int getScores() {
+		return mScores;
+	}
+	
 	public void draw(Graphics g, int offsetW, int offsetH, int size) {
 		g.setColor(Color.BLACK);
 		Font f = new Font("Fixedsys", Font.BOLD, 14);
