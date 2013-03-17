@@ -5,11 +5,11 @@ import java.awt.Color;
 import ua.luxoft.odessa.apushkar.jt2.api.IFigure;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Board;
 
-public class Triangle implements IFigure {
+public class ConeRight implements IFigure {
 	
 	private Position4 mPosition;
-	
-	public Triangle() {
+
+	public ConeRight() {
 		mPosition = Position4.DOWN;
 	}
 	
@@ -21,16 +21,15 @@ public class Triangle implements IFigure {
 		return true;
 	}
 	
-	
 	@Override
 	public void checkUp(Board b, int x, int y) {
-		if (checkSpace(b, x, y))
+		if (checkSpace(b, x, y)) 
 			mPosition = mPosition.getNext();
 	}
 
 	@Override
 	public Color getColor() {
-		return new Color(64, 96, 120);
+		return new Color(128, 32, 70);
 	}
 
 	@Override
@@ -49,23 +48,23 @@ public class Triangle implements IFigure {
 		switch (mPosition) {
 		case LEFT:
 			for (int i = 0; i < 3; i++)
-				pres[1][i] = true;
-			pres[0][1] = true;
+				pres[0][i] = true;
+			pres[1][2] = true;
 			break;
 		case UP:
 			for (int i = 0; i < 3; i++)
-				pres[i][1] = true;
-			pres[1][0] = true;
+				pres[i][0] = true;
+			pres[0][1] = true;
 			break;
 		case RIGHT:
 			for (int i = 0; i < 3; i++)
-				pres[1][i] = true;
-			pres[2][1] = true;
+				pres[2][i] = true;
+			pres[1][0] = true;
 			break;
 		case DOWN:
 			for (int i = 0; i < 3; i++)
-				pres[i][1] = true;
-			pres[1][2] = true;
+				pres[i][2] = true;
+			pres[2][1] = true;
 			break;
 		}
 		return pres;

@@ -6,20 +6,6 @@ import ua.luxoft.odessa.apushkar.jt2.api.IFigure;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Board;
 
 public class Line implements IFigure {
-	private enum Position {
-		VERTICAL {
-			public Position getNext() {
-				return HORIZONTAL;
-			}
-		},
-		
-		HORIZONTAL {
-			public Position getNext() {
-				return VERTICAL;
-			}
-		};
-		abstract public Position getNext();
-	};
 	
 	private Position mPosition;
 	

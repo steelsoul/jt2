@@ -6,35 +6,11 @@ import ua.luxoft.odessa.apushkar.jt2.api.IFigure;
 import ua.luxoft.odessa.apushkar.jt2.board.impl.Board;
 
 public class ConeLeft implements IFigure {
-	private enum Position {
-		LEFT {
-			Position getNext() {
-				return Position.UP;
-			}
-		},
-		UP {
-			Position getNext() {
-				return Position.RIGHT;
-			}
-		},
-		RIGHT {
-			Position getNext() {
-				return Position.DOWN;
-			}
-		},
-		DOWN {
-			Position getNext() {
-				return Position.LEFT;
-			}
-		};
-		
-		abstract Position getNext();
-	}
 	
-	private Position mPosition;
+	private Position4 mPosition;
 	
 	public ConeLeft() {
-		mPosition = Position.DOWN;
+		mPosition = Position4.DOWN;
 	}
 	
 	private Boolean checkSpace(Board b, int x, int y) {

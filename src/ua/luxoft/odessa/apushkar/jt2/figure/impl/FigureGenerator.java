@@ -7,7 +7,7 @@ import ua.luxoft.odessa.apushkar.jt2.api.IFigure;
 public class FigureGenerator {
 	public static IFigure generate() {
 		Random r = new Random();
-		int choice = r.nextInt(4);
+		int choice = r.nextInt(5);
 		switch (choice) {
 		case 0:
 			return new Box();
@@ -17,6 +17,8 @@ public class FigureGenerator {
 			return new Triangle();
 		case 3:
 			return new ConeLeft();
+		case 4:
+			return new ConeRight();
 		default:
 			return new Line();
 		}
