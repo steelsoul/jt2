@@ -54,7 +54,7 @@ public class SplashScreen extends BaseScreen implements ActionListener{
 				int b = rndGen.nextInt(200) + 50;
 				mColors[i] = new Color(r, g, b);
 				int x = rndGen.nextInt(mSizeW);
-				int y = rndGen.nextInt(mSizeH);
+				int y = rndGen.nextInt(mSizeH - 4) + 2;
 				mPoints[i] = new Point(x, y);
 			}
 		}
